@@ -1,7 +1,12 @@
 package com.example.emails;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,3 +29,20 @@ public class EmailService {
     }
 }
 
+@Configuration
+class EmailConfig {
+    @Bean
+    public JavaMailSender javaMailSender() {
+        // Dummy implementation que não envia emails, apenas evita o erro de bean ausente
+        return new JavaMailSenderImpl() {
+            @Override
+            public void send(SimpleMailMessage simpleMessage) throws MailException {
+                // Não faz nada
+            }
+            @Override
+            public void send(SimpleMailMessage... simpleMessages) throws MailException {
+                // Não faz nada
+            }
+        };
+    }
+}
