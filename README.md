@@ -24,7 +24,7 @@ src
 │       ├── examplefeature
 │       │   ├── ui
 │       │   │   └── TaskListView.java
-│       │   ├── Task.java
+│       │   ├── com.example.ConvertMoney.ui.Task.java
 │       │   ├── TaskRepository.java
 │       │   └── TaskService.java                
 │       └── Application.java       
