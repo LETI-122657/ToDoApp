@@ -28,3 +28,21 @@ public class EmailService {
         mailSender.send(message);
     }
 }
+
+@Configuration
+class EmailConfig {
+    @Bean
+    public JavaMailSender javaMailSender() {
+        // Dummy implementation que não envia emails, apenas evita o erro de bean ausente
+        return new JavaMailSenderImpl() {
+            @Override
+            public void send(SimpleMailMessage simpleMessage) throws MailException {
+                // Não faz nada
+            }
+            @Override
+            public void send(SimpleMailMessage... simpleMessages) throws MailException {
+                // Não faz nada
+            }
+        };
+    }
+}
