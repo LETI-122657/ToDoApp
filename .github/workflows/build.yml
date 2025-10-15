@@ -2,32 +2,31 @@ name: Build JAR
 
 on:
   push:
-    branches: [ "main" ]   # (a) dispara em push para a branch principal
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Java 21 (Temurin)
-        uses: actions/setup-java@v4       # (b) configura Java 21+
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
           cache: maven
 
+      - name: Build with Maven
+        run: mvn -B clean package
+
       - name: Copy JAR to repo root (workspace)
         run: |
           cp -v target/*.jar .
 
-      - name: Build with Maven
-        run: mvn -B clean package         # (c) gera o .jar
-
       - name: Upload JAR artifact
-        uses: actions/upload-artifact@v4  # (d) publica o artefacto
+        uses: actions/upload-artifact@v4
         with:
           name: app-jar
           path: |
