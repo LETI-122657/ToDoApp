@@ -29,8 +29,8 @@ import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRe
 import com.example.ConvertMoney.ui.ConvertMoneyView;
 
 @Route("")
-@PageTitle("com.example.ConvertMoney.ui.Task List")
-@Menu(order = 0, icon = "vaadin:clipboard-check", title = "com.example.ConvertMoney.ui.Task List")
+@PageTitle("Task List")
+@Menu(order = 0, icon = "vaadin:clipboard-check", title = "Task List")
 class TaskListView extends Main {
 
     private final TaskService taskService;
@@ -45,7 +45,7 @@ class TaskListView extends Main {
 
         description = new TextField();
         description.setPlaceholder("What do you want to do?");
-        description.setAriaLabel("com.example.ConvertMoney.ui.Task description");
+        description.setAriaLabel("Task description");
         description.setMaxLength(Task.DESCRIPTION_MAX_LENGTH);
         description.setMinWidth("20em");
 
@@ -87,7 +87,7 @@ class TaskListView extends Main {
         );
 
         // Colocamos o botão no toolbar junto aos restantes controlos
-        add(new ViewToolbar("com.example.ConvertMoney.ui.Task List",
+        add(new ViewToolbar("Task List",
                 ViewToolbar.group(description, dueDate, createBtn, goToFx))
         );
 
@@ -99,7 +99,7 @@ class TaskListView extends Main {
         taskGrid.getDataProvider().refreshAll();
         description.clear();
         dueDate.clear();
-        Notification.show("com.example.ConvertMoney.ui.Task added", 3000, Notification.Position.BOTTOM_END)
+        Notification.show("Task added", 3000, Notification.Position.BOTTOM_END)
                 .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
     }
 }
