@@ -1,5 +1,11 @@
 # App README
+Grupo:
 
+Gabriel Gonzaga - 122641.
+
+Rafael Costa - 122645.
+
+Alexandre - 122657.
 - [ ] TODO Replace or update this README with instructions relevant to your application
 - [ ] Link para Vídeo de Demonstração: https://youtu.be/k3mzwxn5MBQ
 ## Project Structure
