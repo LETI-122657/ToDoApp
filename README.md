@@ -1,7 +1,13 @@
 # App README
+Grupo:
 
+Gabriel Gonzaga - 122641.
+
+Rafael Costa - 122645.
+
+Alexandre - 122657.
 - [ ] TODO Replace or update this README with instructions relevant to your application
-
+- [ ] Link para Vídeo de Demonstração: https://youtu.be/k3mzwxn5MBQ
 ## Project Structure
 
 The sources of your App have the following structure:
@@ -24,7 +30,7 @@ src
 │       ├── examplefeature
 │       │   ├── ui
 │       │   │   └── TaskListView.java
-│       │   ├── Task.java
+│       │   ├── com.example.ConvertMoney.ui.Task.java
 │       │   ├── TaskRepository.java
 │       │   └── TaskService.java                
 │       └── Application.java       
@@ -84,3 +90,34 @@ The [Getting Started](https://vaadin.com/docs/latest/getting-started) guide will
 App implementation. You'll learn how to set up your development environment, understand the project 
 structure, and find resources to help you add muscles to your skeleton — transforming it into a fully-featured 
 application.
+
+## Funcionalidade da Pipeline criada
+
+name: Build JAR
+
+on:
+push:
+branches: [ "main" ]
+
+jobs:
+build:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn -B clean package
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: target/*.jar
+          retention-days: 7

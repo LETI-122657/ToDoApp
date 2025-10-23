@@ -3,6 +3,7 @@ package com.example.examplefeature.ui;
 import com.example.base.ui.component.ViewToolbar;
 import com.example.examplefeature.Task;
 import com.example.examplefeature.TaskService;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -14,6 +15,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteConfiguration;                 // [1] IMPORT novo
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import java.time.ZoneId;
@@ -22,6 +24,9 @@ import java.time.format.FormatStyle;
 import java.util.Optional;
 
 import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRequest;
+
+// [2] IMPORT da tua view do câmbio
+import com.example.ConvertMoney.ui.ConvertMoneyView;
 
 @Route("")
 @PageTitle("Task List")
@@ -51,9 +56,18 @@ class TaskListView extends Main {
         createBtn = new Button("Create", event -> createTask());
         createBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        var dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(getLocale())
-                .withZone(ZoneId.systemDefault());
-        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(getLocale());
+        // [3] Botão para navegar para o Conversor de Moedas (Opção B)
+        Button goToFx = new Button("Convert Money", e ->
+                getUI().ifPresent(ui -> ui.navigate(
+                        RouteConfiguration.forSessionScope().getUrl(ConvertMoneyView.class)
+                ))
+        );
+        goToFx.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+
+        var dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .withLocale(getLocale()).withZone(ZoneId.systemDefault());
+        var dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                .withLocale(getLocale());
 
         taskGrid = new Grid<>();
         taskGrid.setItems(query -> taskService.list(toSpringPageRequest(query)).stream());
@@ -64,10 +78,19 @@ class TaskListView extends Main {
         taskGrid.setSizeFull();
 
         setSizeFull();
-        addClassNames(LumoUtility.BoxSizing.BORDER, LumoUtility.Display.FLEX, LumoUtility.FlexDirection.COLUMN,
-                LumoUtility.Padding.MEDIUM, LumoUtility.Gap.SMALL);
+        addClassNames(
+                LumoUtility.BoxSizing.BORDER,
+                LumoUtility.Display.FLEX,
+                LumoUtility.FlexDirection.COLUMN,
+                LumoUtility.Padding.MEDIUM,
+                LumoUtility.Gap.SMALL
+        );
 
-        add(new ViewToolbar("Task List", ViewToolbar.group(description, dueDate, createBtn)));
+        // Colocamos o botão no toolbar junto aos restantes controlos
+        add(new ViewToolbar("Task List",
+                ViewToolbar.group(description, dueDate, createBtn, goToFx))
+        );
+
         add(taskGrid);
     }
 
@@ -79,5 +102,4 @@ class TaskListView extends Main {
         Notification.show("Task added", 3000, Notification.Position.BOTTOM_END)
                 .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
     }
-
 }
